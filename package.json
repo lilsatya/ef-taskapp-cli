@@ -1,0 +1,30 @@
+{
+  "name": "@lilsatya/ef-taskapp-cli-js",
+  "version": "0.0.1",
+  "description": "Taskapp cli",
+  "main": "src/cli.js",
+  "repository": "none",
+  "author": "Lingga Satya Heryadi",
+  "license": "MIT",
+  "private": false,
+  "bin": {
+    "@lilsatya/ef-taskapp-cli-js": "bin/ef-taskapp",
+    "ef-taskapp": "bin/ef-taskapp"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "ef-taskapp"
+  ],
+  "dependencies": {
+    "arg": "^4.1.1",
+    "esm": "^3.2.25",
+    "pouchdb": "^7.1.1"
+  },
+  "resolutions": {
+    "leveldown": "5.0.2",
+    "levelup": "4.0.2"
+  }
+}
