@@ -17,7 +17,7 @@ const parseArgumentsIntoOptions = rawArgs => {
       '--sync': Boolean,
       '--title': String,
       '--description': String,
-      '--userId': String,
+      '--assigneeId': String,
       '--dueDate': String,
       '--status': String,
       '--tags': String,
@@ -43,12 +43,12 @@ const parseArgumentsIntoOptions = rawArgs => {
     update: args['--update'] || false,
     add: args['--add'] || false,
     sync: args['--sync'] || false,
-    title: args['--title'] || null,
-    description: args['--description'] || null,
-    userId: args['--userId'] || null,
-    dueDate: args['--dueDate'] || null,
-    status: args['--status'] || null,
-    tags: args['--tags'] || null,
+    title: args['--title'] || undefined,
+    description: args['--description'] || undefined,
+    assigneeId: args['--assigneeId'] || undefined,
+    dueDate: args['--dueDate'] || undefined,
+    status: args['--status'] || undefined,
+    tags: args['--tags'] || undefined,
     help: args['--help'] || false
   }
 }
@@ -69,7 +69,7 @@ const renderHelp = () => {
     --sync / -s = Sync local db with remote
     OTHER
     --id = Needed for any single object manipulation
-    --userId = Needed for --add
+    --assigneeId = Needed for --add
     --dueDate = date format: 1970-01-20
     --status = input one of the following value: backlog, in-progress, completed
     --tags = input tags, separated with comma: tag,tag2,tag3

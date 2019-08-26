@@ -4,12 +4,12 @@ import UserModule from '../modules/users'
 import TaskModule from '../modules/tasks'
 
 export default async (options) => {
-  const { id, rev, update, remove, add, title, description, userId, dueDate, status, tags, sync } = options
-  const user = await UserModule.read(Number(userId))
-  const body = {
+  const { id, rev, update, remove, add, title, description, assigneeId, dueDate, status, tags, sync } = options
+  const assignee = await UserModule.read(Number(assigneeId))
+  let body = {
     title,
     description,
-    user,
+    assignee,
     dueDate: dueDate && new Date(dueDate),
     status: add ? 'backlog' : status,
     tags: tags && tags.split(',')
@@ -23,12 +23,16 @@ export default async (options) => {
     for (let i = 0; i < Object.keys(body).length; i++) {
       const key = Object.keys(body)[i]
       if (!body[key]) {
-        return `${body[Object.keys[i]]} is null, please include when adding new item`
+        return `${Object.keys(body)[i]} is null, please include when adding new item`
       }
     }
+    body.createdAt = new Date()
 
     return TaskModule.add(body)
   } else if (update) {
+    // Necessary to remove any undefined values
+    body = JSON.parse(JSON.stringify(body))
+    body.dirtyAt = new Date()
     return TaskModule.update(id, body)
   } else if (id) {
     return TaskModule.read(id)

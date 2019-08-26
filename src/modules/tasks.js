@@ -17,10 +17,16 @@ export const remove = async (id, rev) => {
     return 'Please include the id (--id={taskId}) to delete the task'
   }
 }
-export const update = async (id, body) => await this.dbLocal.put({
-  _id: id,
-  ...body
-})
+export const update = async (id, newBody) => {
+  let body = await this.dbLocal.get(id)
+
+  body = {
+    ...body,
+    ...newBody
+  }
+
+  return await this.dbLocal.put(body)
+}
 export const add = async (body) => await this.dbLocal.post(body)
 export const sync = async () => {
   await this.dbLocal.replicate.from(`${dbConfig.couchDBUrl}/${DB_NAME}`, { auth: dbConfig.couchDBAuth })
