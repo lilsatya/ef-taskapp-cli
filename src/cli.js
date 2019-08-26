@@ -3,11 +3,8 @@
 import arg from 'arg'
 import util from 'util'
 
-import UserModule from './functions/users'
-import TaskModule from './functions/tasks'
-
-// Init DB
-//TaskModule.init()
+import TaskController from './controllers/tasks'
+import UserController from './controllers/users'
 
 const parseArgumentsIntoOptions = rawArgs => {
   const args = arg(
@@ -17,14 +14,20 @@ const parseArgumentsIntoOptions = rawArgs => {
       '--remove': Boolean,
       '--update': Boolean,
       '--add': Boolean,
+      '--sync': Boolean,
       '--title': String,
       '--description': String,
+      '--userId': String,
+      '--dueDate': String,
+      '--status': String,
+      '--tags': String,
       '--help': Boolean,
 
       // shorthands
       '-r': '--remove',
       '-u': '--update',
       '-a': '--add',
+      '-s': '--sync',
       '-h': '--help'
     },
     {
@@ -39,8 +42,13 @@ const parseArgumentsIntoOptions = rawArgs => {
     remove: args['--remove'] || false,
     update: args['--update'] || false,
     add: args['--add'] || false,
+    sync: args['--sync'] || false,
     title: args['--title'] || null,
     description: args['--description'] || null,
+    userId: args['--userId'] || null,
+    dueDate: args['--dueDate'] || null,
+    status: args['--status'] || null,
+    tags: args['--tags'] || null,
     help: args['--help'] || false
   }
 }
@@ -58,33 +66,18 @@ const renderHelp = () => {
     --remove / -r = Remove an object, must be paired with --id and --rev
     --update / -u = Update an object, must be paired with --id, and --title or --description
     --add / -a = Add a new object, must be paired with --id and --description
+    --sync / -s = Sync local db with remote
     OTHER
     --id = Needed for any single object manipulation
+    --userId = Needed for --add
+    --dueDate = date format: 1970-01-20
+    --status = input one of the following value: backlog, in-progress, completed
+    --tags = input tags, separated with comma: tag,tag2,tag3
     --rev = Needed for --remove
     --title = Title of task
     --description = Description of task
     --help = Show help menu
   `
-}
-
-const matchModule = (module, options) => {
-  const { id, rev, update, remove, add, title, description } = options
-  const body = {
-    title,
-    description
-  }
-  
-  if (remove) {
-    return module.remove(id, rev)
-  } else if (add) {
-    return module.add(body)
-  } else if (update) {
-    return module.update(id, body)
-  } else if (id) {
-    return module.read(id)
-  } else {
-    return module.list()
-  }
 }
 
 const parseArgumentsIntoModule = options => {
@@ -93,12 +86,12 @@ const parseArgumentsIntoModule = options => {
   if (help) return renderHelp()
 
   switch (module) {
-  case 'users':
-    return matchModule(UserModule, options)
   case 'tasks':
-    return matchModule(TaskModule, options)
+    return TaskController(options)
+  case 'users':
+    return UserController(options)
   default:
-    return 'Please include module after initial command: ["users", "tasks"]'
+    return 'Please include module after initial command: ["tasks", "users"]'
   }
 }
  
@@ -106,7 +99,7 @@ export async function cli(args) {
   try {
     let options = parseArgumentsIntoOptions(args)
     options = await parseArgumentsIntoModule(options)
-    console.log(typeof options === 'string' ? console.log(options) : util.inspect(options, false, null, true))
+    console.log(typeof options === 'string' ? options : util.inspect(options, false, null, true))
   } catch (err) {
     console.log(err)
   }
