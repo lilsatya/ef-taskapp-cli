@@ -9,7 +9,23 @@ npm i @lilsatya/ef-taskapp-cli-js -g
 if you want to install globally
 
 ## Commands
-Modules:
+
+### Type in cmd: {ef-taskapp} followed with modules and operations
+### Example
+
+ef-taskapp tasks (to get list of tasks)
+
+ef-taskapp tasks --id=29asdwua0euai (to get single task)
+
+ef-taskapp tasks -a --title="LALA" --description="LULU" --dueDate="2019-08-30" --assigneeId=1 --tags="tag1,tag2" (to add new task)
+
+ef-taskapp tasks -u --id=29asdwua0euai --rev=1j301njknsadkajw --title="LALA" (to update task)
+
+ef-taskapp tasks -r --id=29asdwua0euai --rev=1j301njknsadkajw (to remove task)
+
+ef-taskapp tasks -s (to sync tasks db with remote db)
+
+### Modules:
 
 tasks
 
