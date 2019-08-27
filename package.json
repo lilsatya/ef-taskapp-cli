@@ -1,12 +1,16 @@
 {
   "name": "@lilsatya/ef-taskapp-cli-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Taskapp cli",
   "main": "src/cli.js",
   "repository": "none",
   "author": "Lingga Satya Heryadi",
   "license": "MIT",
   "private": false,
+  "files": [
+    "bin/",
+    "src/"
+  ],
   "bin": {
     "@lilsatya/ef-taskapp-cli-js": "bin/ef-taskapp",
     "ef-taskapp": "bin/ef-taskapp"
