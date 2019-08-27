@@ -11,10 +11,10 @@ this.dbRemote = constructorRemote(DB_NAME, dbConfig)
 export const list = async () => await this.dbLocal.allDocs({ include_docs: true, descending: true })
 export const read = async (id) => await this.dbLocal.get(id.toString())
 export const remove = async (id, rev) => {
-  if (id) {
+  if (id && rev) {
     return await this.dbLocal.remove(id.toString(), rev.toString())
   } else {
-    return 'Please include the id (--id={taskId}) to delete the task'
+    return 'Please include the id (--id) and rev (--rev) to delete the task'
   }
 }
 export const update = async (id, newBody) => {
