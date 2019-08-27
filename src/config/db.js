@@ -1,11 +1,15 @@
 'use strict'
 
 import PouchDB from 'pouchdb'
+import fs from 'fs'
 
 export const constructorLocal = (dbName) => {
-  const db = new PouchDB(`db/${dbName}`, { adapter: 'leveldb' })
+  const prefix = 'db/'
+  if (!fs.existsSync(prefix)) {
+    fs.mkdirSync(prefix)
+  }
 
-  return db
+  return new PouchDB(prefix + dbName, { adapter: 'leveldb' })
 }
 
 export const constructorRemote = (dbName, dbConfig) => {
