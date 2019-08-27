@@ -1,6 +1,6 @@
 {
   "name": "@lilsatya/ef-taskapp-cli-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Taskapp cli",
   "main": "src/cli.js",
   "repository": "none",
